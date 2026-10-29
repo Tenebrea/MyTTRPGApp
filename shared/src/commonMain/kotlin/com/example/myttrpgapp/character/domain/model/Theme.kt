@@ -1,0 +1,13 @@
+package com.example.myttrpgapp.character.domain.model
+
+data class Theme(
+    val id: Int,
+    val name: String,
+    val powerTags: List<Tag>,
+    val weaknessTags: List<Tag>,
+    val milestoneCount: Int,
+    val improveCount: Int,
+    val abandonCount: Int,
+    val description: String,
+    val specialImprovements: List<SpecialImprovement>,
+)

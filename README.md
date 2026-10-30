@@ -1,3 +1,6 @@
+>Продукт не является оффициальным прилложением для игры в Legend in the Mist и не имеет связи с Son of Oak.
+
+
 This is a Kotlin Multiplatform project targeting Android, Desktop (JVM).
 
 * [/shared](./shared/src) is for code that will be shared across your Compose Multiplatform applications.

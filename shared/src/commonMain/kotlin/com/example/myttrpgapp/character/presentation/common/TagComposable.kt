@@ -18,9 +18,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.myhabitapp.ui.theme.SelectedPowerTagColor
 import com.example.myhabitapp.ui.theme.SelectedWeaknessTagColor
 import com.example.myhabitapp.ui.theme.TTRPGAppTheme
@@ -35,7 +33,7 @@ import org.jetbrains.compose.resources.painterResource
 fun TagComposable(
     tag: Tag,
     modifier: Modifier = Modifier,
-    onClick: (Tag) -> Unit
+    onClick: () -> Unit
 ) {
     Box(
         modifier = modifier,
@@ -43,7 +41,7 @@ fun TagComposable(
     ) {
         Card(
             modifier = Modifier
-                .clickable { onClick(tag) },
+                .clickable { onClick() },
             shape = RoundedCornerShape(16.dp),
             colors = CardDefaults.cardColors(
                 if (tag.tagState == TagState.SELECTED) {

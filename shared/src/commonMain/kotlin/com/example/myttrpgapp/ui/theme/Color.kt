@@ -43,3 +43,5 @@ val SelectedPowerTagColor = Color(0xFFD0962A)
 val SelectedStatusColor = Color(0xFF70925C)
 val OnTagColor = Color(0xFFEFE6D8)
 val DescriptionColor = Color(0xFF9F8475)
+
+val ThemeBackgroundColor = Color(0xFF0A0911)

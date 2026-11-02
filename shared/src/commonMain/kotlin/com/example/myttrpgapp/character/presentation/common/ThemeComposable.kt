@@ -22,11 +22,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.myhabitapp.ui.theme.EmphasizedTextColor
 import com.example.myhabitapp.ui.theme.TTRPGAppTheme
 import com.example.myttrpgapp.character.domain.model.themes.Might
 import com.example.myttrpgapp.character.domain.model.tags.Tag
 import com.example.myttrpgapp.character.domain.model.tags.TagCategory
 import com.example.myttrpgapp.character.domain.model.tags.TagState
+import com.example.myttrpgapp.character.domain.model.themes.SpecialImprovement
 import com.example.myttrpgapp.character.domain.model.themes.Theme
 import myttrpgapp.shared.generated.resources.Res
 import myttrpgapp.shared.generated.resources.adventure_theme
@@ -70,13 +72,15 @@ fun ThemeComposable(
                         MaterialTheme.typography.bodyMedium.lineHeight.toDp()
                     }
                     Image(
-                        painter = painterResource(when (theme.might) {
-                            Might.ORIGIN -> Res.drawable.origin_theme
-                            Might.ADVENTURE -> Res.drawable.adventure_theme
-                            Might.GREATNESS -> Res.drawable.greatness_theme
-                        }),
+                        painter = painterResource(
+                            when (theme.might) {
+                                Might.ORIGIN -> Res.drawable.origin_theme
+                                Might.ADVENTURE -> Res.drawable.adventure_theme
+                                Might.GREATNESS -> Res.drawable.greatness_theme
+                            }
+                        ),
                         contentDescription = "Theme might level ${theme.might.name}",
-                        modifier = Modifier.height(lineHeightDp*2)
+                        modifier = Modifier.height(lineHeightDp * 2)
                     )
                     TagComposable(
                         tag = theme.name,
@@ -169,7 +173,44 @@ fun ThemeComposable(
                         )
                     }
                 }
+                if (theme.specialImprovements.isNotEmpty()) {
+                    theme.specialImprovements.forEach {
+                        SpecialImprovementComposable(
+                            specialImprovement = it,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
+                }
             }
+        }
+    }
+}
+
+@Composable
+fun SpecialImprovementComposable(
+    modifier: Modifier = Modifier,
+    specialImprovement: SpecialImprovement
+) {
+    val lineHeight = with(LocalDensity.current) {
+        MaterialTheme.typography.bodyMedium.lineHeight.toDp()
+    }
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+    ) {
+        Image(
+            painter = painterResource(Res.drawable.status_selected),
+            contentDescription = null,
+            modifier = Modifier.height(lineHeight)
+        )
+        Column(modifier = Modifier.padding(horizontal = 8.dp)) {
+            Text(
+                text = specialImprovement.name,
+                style = MaterialTheme.typography.displayMedium
+            )
+            Text(
+                text = specialImprovement.description,
+            )
         }
     }
 }
@@ -197,7 +238,8 @@ fun Counter(
             for (i in 1..maxCount) {
                 Image(
                     painter = if (i <= count) painterResource(Res.drawable.status_selected) else painterResource(
-                        Res.drawable.status_selectable),
+                        Res.drawable.status_selectable
+                    ),
                     contentDescription = "Current $name level $i",
                     modifier = Modifier.clickable { onClick(i) }.height(lineHeightDp)
                 )
@@ -216,7 +258,6 @@ fun ThemeComposablePreview() {
                 name = Tag(
                     id = 0,
                     name = "Firestarter",
-                    description = "Some stuf about fire starter",
                     tagState = TagState.UNSELECTED,
                     tagCategory = TagCategory.POWER
                 ),
@@ -226,21 +267,18 @@ fun ThemeComposablePreview() {
                     Tag(
                         id = 1,
                         name = "Fireball",
-                        description = "Casts a fireball",
                         tagState = TagState.UNSELECTED,
                         tagCategory = TagCategory.POWER
                     ),
                     Tag(
                         id = 3,
                         name = "Fireball",
-                        description = "Casts a fireball",
                         tagState = TagState.UNSELECTED,
                         tagCategory = TagCategory.POWER
                     ),
                     Tag(
                         id = 2,
                         name = "Heat Resistance",
-                        description = "Resistant to fire",
                         tagState = TagState.SELECTED,
                         tagCategory = TagCategory.POWER
                     )
@@ -249,7 +287,6 @@ fun ThemeComposablePreview() {
                     Tag(
                         id = 3,
                         name = "Water Weakness",
-                        description = "Weak against water",
                         tagState = TagState.UNSELECTED,
                         tagCategory = TagCategory.WEAKNESS
                     )
@@ -257,7 +294,18 @@ fun ThemeComposablePreview() {
                 milestoneCount = 2,
                 improveCount = 1,
                 abandonCount = 0,
-                specialImprovements = emptyList(),
+                specialImprovements = listOf(
+                    SpecialImprovement(
+                        id = 1,
+                        name = "Black sheep",
+                        description = "You're allowed to do everything"
+                    ),
+                    SpecialImprovement(
+                        id = 1,
+                        name = "Black sheep",
+                        description = "You're allowed to do everything"
+                    )
+                ),
                 group = "Magic",
                 might = Might.ORIGIN
             ),

@@ -121,7 +121,6 @@ fun TagPreview() {
             Tag(
                 1,
                 "Some pretty long text",
-                "test",
                 TagState.BURNING,
                 TagCategory.POWER),
             onClick = {},

@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -33,7 +32,7 @@ import com.example.myttrpgapp.character.presentation.common.TagComposable
 import com.example.myttrpgapp.character.presentation.common.ThemeComposable
 
 @Composable
-fun CharacterRoute(
+fun PlayCharacterRoute(
     modifier: Modifier = Modifier,
     uiState: CharacterSheetUiState,
     onEvent: (CharacterSheetEvent) -> Unit
@@ -163,7 +162,7 @@ fun CharacterRoute(
 @Composable
 fun CharacterRoutePreview() {
     TTRPGAppTheme {
-        CharacterRoute(
+        PlayCharacterRoute(
             modifier = Modifier.verticalScroll(rememberScrollState()).padding(16.dp),
             uiState = CharacterSheetUiState(
                 character = Character(
@@ -177,7 +176,6 @@ fun CharacterRoutePreview() {
                         name = Tag(
                             id = 1,
                             name = "Fellowship",
-                            description = "Bound together",
                             tagState = TagState.UNSELECTED,
                             tagCategory = TagCategory.POWER
                         ),
@@ -186,10 +184,20 @@ fun CharacterRoutePreview() {
                         description = "Our shared bond",
                         quest = "Protect the realm",
                         powerTags = listOf(
-                            Tag(2, "Comrades in Arms", "Trust in team", TagState.UNSELECTED, TagCategory.POWER)
+                            Tag(
+                                2,
+                                "Comrades in Arms",
+                                TagState.UNSELECTED,
+                                TagCategory.POWER
+                            )
                         ),
                         weaknessTags = listOf(
-                            Tag(3, "Shared Burden", "Consequences for all", TagState.UNSELECTED, TagCategory.WEAKNESS)
+                            Tag(
+                                3,
+                                "Shared Burden",
+                                TagState.UNSELECTED,
+                                TagCategory.WEAKNESS
+                            )
                         ),
                         milestoneCount = 1,
                         improveCount = 2,
@@ -202,7 +210,6 @@ fun CharacterRoutePreview() {
                             name = Tag(
                                 id = 4,
                                 name = "Firestarter",
-                                description = "Master of flames",
                                 tagState = TagState.UNSELECTED,
                                 tagCategory = TagCategory.POWER
                             ),
@@ -211,11 +218,26 @@ fun CharacterRoutePreview() {
                             description = "Master of flames and heat",
                             quest = "Learn the truth behind the eternal flame",
                             powerTags = listOf(
-                                Tag(5, "Fireball", "Casts a fireball", TagState.UNSELECTED, TagCategory.POWER),
-                                Tag(6, "Heat Resistance", "Resistant to fire", TagState.SELECTED, TagCategory.POWER)
+                                Tag(
+                                    5,
+                                    "Fireball",
+                                    TagState.UNSELECTED,
+                                    TagCategory.POWER
+                                ),
+                                Tag(
+                                    6,
+                                    "Heat Resistance",
+                                    TagState.SELECTED,
+                                    TagCategory.POWER
+                                )
                             ),
                             weaknessTags = listOf(
-                                Tag(7, "Water Weakness", "Weak against water", TagState.UNSELECTED, TagCategory.WEAKNESS)
+                                Tag(
+                                    7,
+                                    "Water Weakness",
+                                    TagState.UNSELECTED,
+                                    TagCategory.WEAKNESS
+                                )
                             ),
                             milestoneCount = 2,
                             improveCount = 1,
@@ -224,11 +246,26 @@ fun CharacterRoutePreview() {
                         )
                     ),
                     backpackTags = listOf(
-                        Tag(8, "Healing Potion", "Restores health", TagState.SELECTED, TagCategory.BACKPACK),
-                        Tag(9, "Rope & Hook", "Useful for climbing", TagState.UNSELECTED, TagCategory.BACKPACK)
+                        Tag(
+                            8,
+                            "Healing Potion",
+                            TagState.SELECTED,
+                            TagCategory.BACKPACK
+                        ),
+                        Tag(
+                            9,
+                            "Rope & Hook",
+                            TagState.UNSELECTED,
+                            TagCategory.BACKPACK
+                        )
                     ),
                     storyTags = listOf(
-                        Tag(10, "Marked by the Cult", "Known enemy of the cult", TagState.UNSELECTED, TagCategory.POWER)
+                        Tag(
+                            10,
+                            "Marked by the Cult",
+                            TagState.UNSELECTED,
+                            TagCategory.POWER
+                        )
                     ),
                     status = listOf(
                         Status(

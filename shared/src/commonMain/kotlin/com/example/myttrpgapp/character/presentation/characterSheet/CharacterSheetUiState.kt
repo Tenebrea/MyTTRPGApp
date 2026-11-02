@@ -19,7 +19,6 @@ data class CharacterSheetUiState(
             name = Tag(
                 id = 0,
                 name = "",
-                description = "",
                 tagState = com.example.myttrpgapp.character.domain.model.tags.TagState.UNSELECTED,
                 tagCategory = com.example.myttrpgapp.character.domain.model.tags.TagCategory.POWER
             ),

@@ -45,3 +45,5 @@ val OnTagColor = Color(0xFFEFE6D8)
 val DescriptionColor = Color(0xFF9F8475)
 
 val ThemeBackgroundColor = Color(0xFF0A0911)
+
+val EmphasizedTextColor = Color(0xFFE3CDAE)

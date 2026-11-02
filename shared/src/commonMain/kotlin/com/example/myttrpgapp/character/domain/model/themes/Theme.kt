@@ -1,8 +1,10 @@
-package com.example.myttrpgapp.character.domain.model
+package com.example.myttrpgapp.character.domain.model.themes
+
+import com.example.myttrpgapp.character.domain.model.tags.Tag
 
 data class Theme(
     val id: Int,
-    val name: String,
+    val name: Tag,
     val group: String,
     val might: Might,
     val description: String,

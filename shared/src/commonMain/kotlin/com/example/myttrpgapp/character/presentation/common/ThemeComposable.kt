@@ -23,12 +23,11 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myhabitapp.ui.theme.TTRPGAppTheme
-import com.example.myttrpgapp.character.domain.model.Might
-import com.example.myttrpgapp.character.domain.model.Tag
-import com.example.myttrpgapp.character.domain.model.TagCategory
-import com.example.myttrpgapp.character.domain.model.TagState
-import com.example.myttrpgapp.character.domain.model.Theme
-import javafx.scene.paint.Material
+import com.example.myttrpgapp.character.domain.model.themes.Might
+import com.example.myttrpgapp.character.domain.model.tags.Tag
+import com.example.myttrpgapp.character.domain.model.tags.TagCategory
+import com.example.myttrpgapp.character.domain.model.tags.TagState
+import com.example.myttrpgapp.character.domain.model.themes.Theme
 import myttrpgapp.shared.generated.resources.Res
 import myttrpgapp.shared.generated.resources.adventure_theme
 import myttrpgapp.shared.generated.resources.greatness_theme
@@ -79,10 +78,10 @@ fun ThemeComposable(
                         contentDescription = "Theme might level ${theme.might.name}",
                         modifier = Modifier.height(lineHeightDp*2)
                     )
-                    Text(
-                        text = theme.name,
-                        style = MaterialTheme.typography.titleLarge,
-                        modifier = Modifier.padding(bottom = 8.dp)
+                    TagComposable(
+                        tag = theme.name,
+                        onClick = { onPowerTagClick(theme.name) },
+                        isThemeName = true
                     )
                 }
                 OutlinedCard(
@@ -178,8 +177,9 @@ fun ThemeComposable(
 @Composable
 fun Counter(
     count: Int,
-    name: String,
     modifier: Modifier = Modifier,
+    maxCount: Int = 3,
+    name: String,
     onClick: (Int) -> Unit
 ) {
     val lineHeightDp = with(LocalDensity.current) {
@@ -191,10 +191,10 @@ fun Counter(
     ) {
         Text(
             text = name,
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier
         )
-        Row {
-            for (i in 1..3) {
+        Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+            for (i in 1..maxCount) {
                 Image(
                     painter = if (i <= count) painterResource(Res.drawable.status_selected) else painterResource(
                         Res.drawable.status_selectable),
@@ -213,12 +213,25 @@ fun ThemeComposablePreview() {
         ThemeComposable(
             theme = Theme(
                 id = 1,
-                name = "Firestarter",
+                name = Tag(
+                    id = 0,
+                    name = "Firestarter",
+                    description = "Some stuf about fire starter",
+                    tagState = TagState.UNSELECTED,
+                    tagCategory = TagCategory.POWER
+                ),
                 description = "Master of flames and heat.",
                 quest = "Learn the truth behind the eternal flame.",
                 powerTags = listOf(
                     Tag(
                         id = 1,
+                        name = "Fireball",
+                        description = "Casts a fireball",
+                        tagState = TagState.UNSELECTED,
+                        tagCategory = TagCategory.POWER
+                    ),
+                    Tag(
+                        id = 3,
                         name = "Fireball",
                         description = "Casts a fireball",
                         tagState = TagState.UNSELECTED,

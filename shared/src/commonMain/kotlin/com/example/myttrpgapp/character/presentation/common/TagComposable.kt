@@ -22,9 +22,9 @@ import androidx.compose.ui.unit.dp
 import com.example.myhabitapp.ui.theme.SelectedPowerTagColor
 import com.example.myhabitapp.ui.theme.SelectedWeaknessTagColor
 import com.example.myhabitapp.ui.theme.TTRPGAppTheme
-import com.example.myttrpgapp.character.domain.model.Tag
-import com.example.myttrpgapp.character.domain.model.TagCategory
-import com.example.myttrpgapp.character.domain.model.TagState
+import com.example.myttrpgapp.character.domain.model.tags.Tag
+import com.example.myttrpgapp.character.domain.model.tags.TagCategory
+import com.example.myttrpgapp.character.domain.model.tags.TagState
 import myttrpgapp.shared.generated.resources.Res
 import myttrpgapp.shared.generated.resources.burning
 import org.jetbrains.compose.resources.painterResource
@@ -33,7 +33,8 @@ import org.jetbrains.compose.resources.painterResource
 fun TagComposable(
     tag: Tag,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    isThemeName: Boolean = false
 ) {
     Box(
         modifier = modifier,
@@ -42,23 +43,27 @@ fun TagComposable(
         Card(
             modifier = Modifier
                 .clickable { onClick() },
-            shape = RoundedCornerShape(16.dp),
+            shape = RoundedCornerShape(if (isThemeName) 4.dp else 16.dp),
             colors = CardDefaults.cardColors(
-                if (tag.tagState == TagState.SELECTED) {
-                    when (tag.tagCategory) {
-                        TagCategory.POWER -> SelectedPowerTagColor
-                        TagCategory.WEAKNESS -> SelectedWeaknessTagColor
-                        TagCategory.STORY -> SelectedPowerTagColor
-                        TagCategory.BACKPACK -> SelectedPowerTagColor
+                when (tag.tagState) {
+                    TagState.SELECTED -> {
+                        when (tag.tagCategory) {
+                            TagCategory.POWER -> SelectedPowerTagColor
+                            TagCategory.WEAKNESS -> SelectedWeaknessTagColor
+                            TagCategory.STORY -> SelectedPowerTagColor
+                            TagCategory.BACKPACK -> SelectedPowerTagColor
+                        }
                     }
-                } else if(tag.tagState == TagState.WEAKENED) {
-                    SelectedWeaknessTagColor
-                } else {
-                    when (tag.tagCategory) {
-                        TagCategory.POWER -> MaterialTheme.colorScheme.primary
-                        TagCategory.WEAKNESS -> MaterialTheme.colorScheme.secondary
-                        TagCategory.STORY -> MaterialTheme.colorScheme.primary
-                        TagCategory.BACKPACK -> MaterialTheme.colorScheme.primary
+                    TagState.WEAKENED -> {
+                        SelectedWeaknessTagColor
+                    }
+                    else -> {
+                        when (tag.tagCategory) {
+                            TagCategory.POWER -> MaterialTheme.colorScheme.primary
+                            TagCategory.WEAKNESS -> MaterialTheme.colorScheme.secondary
+                            TagCategory.STORY -> MaterialTheme.colorScheme.primary
+                            TagCategory.BACKPACK -> MaterialTheme.colorScheme.primary
+                        }
                     }
                 }
             ),
@@ -76,18 +81,33 @@ fun TagComposable(
                         modifier = Modifier.padding(start = 4.dp, top = 4.dp, bottom = 4.dp).height(lineHeightDp)
                     )
                 }
-                Text(
-                    text = tag.name,
-                    modifier = Modifier.padding(4.dp),
-                    style = MaterialTheme.typography.bodyMedium
-                        .plus(TextStyle(textDecoration = if (tag.tagState == TagState.SCRATCHED) TextDecoration.LineThrough else null)),
-                    color = when (tag.tagCategory) {
-                        TagCategory.POWER -> MaterialTheme.colorScheme.onPrimary
-                        TagCategory.WEAKNESS -> MaterialTheme.colorScheme.onSecondary
-                        TagCategory.STORY -> MaterialTheme.colorScheme.onPrimary
-                        TagCategory.BACKPACK -> MaterialTheme.colorScheme.onPrimary
-                    }
-                )
+                if (isThemeName) {
+                    Text(
+                        text = tag.name,
+                        modifier = Modifier.padding(4.dp),
+                        style = MaterialTheme.typography.displayMedium
+                            .plus(TextStyle(textDecoration = if (tag.tagState == TagState.SCRATCHED) TextDecoration.LineThrough else null)),
+                        color = when (tag.tagCategory) {
+                            TagCategory.POWER -> MaterialTheme.colorScheme.onPrimary
+                            TagCategory.WEAKNESS -> MaterialTheme.colorScheme.onSecondary
+                            TagCategory.STORY -> MaterialTheme.colorScheme.onPrimary
+                            TagCategory.BACKPACK -> MaterialTheme.colorScheme.onPrimary
+                        }
+                    )
+                } else {
+                    Text(
+                        text = tag.name,
+                        modifier = Modifier.padding(4.dp),
+                        style = MaterialTheme.typography.bodyMedium
+                            .plus(TextStyle(textDecoration = if (tag.tagState == TagState.SCRATCHED) TextDecoration.LineThrough else null)),
+                        color = when (tag.tagCategory) {
+                            TagCategory.POWER -> MaterialTheme.colorScheme.onPrimary
+                            TagCategory.WEAKNESS -> MaterialTheme.colorScheme.onSecondary
+                            TagCategory.STORY -> MaterialTheme.colorScheme.onPrimary
+                            TagCategory.BACKPACK -> MaterialTheme.colorScheme.onPrimary
+                        }
+                    )
+                }
             }
         }
     }

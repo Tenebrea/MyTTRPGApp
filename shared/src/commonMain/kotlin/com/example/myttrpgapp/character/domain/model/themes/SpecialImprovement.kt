@@ -1,4 +1,4 @@
-package com.example.myttrpgapp.character.domain.model
+package com.example.myttrpgapp.character.domain.model.themes
 
 data class SpecialImprovement(
     val id: Int,

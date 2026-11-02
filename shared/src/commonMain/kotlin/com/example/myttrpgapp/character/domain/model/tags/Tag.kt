@@ -1,4 +1,4 @@
-package com.example.myttrpgapp.character.domain.model
+package com.example.myttrpgapp.character.domain.model.tags
 
 data class Tag(
     val id: Int,

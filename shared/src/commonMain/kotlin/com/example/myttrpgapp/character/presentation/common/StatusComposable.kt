@@ -1,7 +1,6 @@
 package com.example.myttrpgapp.character.presentation.common
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,14 +15,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myhabitapp.ui.theme.SelectedStatusColor
 import com.example.myhabitapp.ui.theme.TTRPGAppTheme
-import com.example.myttrpgapp.character.domain.model.Status
-import com.example.myttrpgapp.character.domain.model.TagState
+import com.example.myttrpgapp.character.domain.model.statuses.Status
+import com.example.myttrpgapp.character.domain.model.tags.TagState
 import myttrpgapp.shared.generated.resources.Res
 import myttrpgapp.shared.generated.resources.status_selectable
 import myttrpgapp.shared.generated.resources.status_selected

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -17,25 +18,32 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myhabitapp.ui.theme.TTRPGAppTheme
 import com.example.myttrpgapp.character.domain.model.Character
+import com.example.myttrpgapp.character.domain.model.Quintessence
 import com.example.myttrpgapp.character.domain.model.statuses.Status
 import com.example.myttrpgapp.character.domain.model.tags.Tag
 import com.example.myttrpgapp.character.domain.model.tags.TagCategory
 import com.example.myttrpgapp.character.domain.model.tags.TagState
 import com.example.myttrpgapp.character.domain.model.themes.Might
+import com.example.myttrpgapp.character.domain.model.themes.SpecialImprovement
 import com.example.myttrpgapp.character.domain.model.themes.Theme
 import com.example.myttrpgapp.character.presentation.common.Counter
 import com.example.myttrpgapp.character.presentation.common.StatusComposable
 import com.example.myttrpgapp.character.presentation.common.TagComposable
 import com.example.myttrpgapp.character.presentation.common.ThemeComposable
 import myttrpgapp.shared.generated.resources.Res
+import myttrpgapp.shared.generated.resources.add
 import myttrpgapp.shared.generated.resources.edit
+import myttrpgapp.shared.generated.resources.remove
+import myttrpgapp.shared.generated.resources.status_selected
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
@@ -52,7 +60,8 @@ fun PlayCharacterRoute(
             if (uiState.character.portrait != null) {
                 Image(
                     bitmap = uiState.character.portrait,
-                    contentDescription = "Portrait of ${uiState.character.name}"
+                    contentDescription = "Portrait of ${uiState.character.name}",
+                    modifier = Modifier.weight(1f)
                 )
             }
             Column(
@@ -80,6 +89,58 @@ fun PlayCharacterRoute(
                     painter = painterResource(Res.drawable.edit),
                     contentDescription = "Edit character"
                 )
+            }
+        }
+
+
+
+        //Description
+        OutlinedCard(
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(8.dp)
+        ) {
+            Column(
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Text(
+                    text = "Character description",
+                    style = MaterialTheme.typography.displaySmall,
+                )
+                Text(
+                    text = uiState.character.description,
+                    modifier = Modifier.padding(top = 8.dp),
+                )
+            }
+        }
+
+        //Quintessence
+        OutlinedCard(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp),
+            shape = RoundedCornerShape(8.dp)
+        ) {
+            Column(
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Text(
+                    text = "Quintessence",
+                    style = MaterialTheme.typography.displaySmall,
+                )
+                if (uiState.character.quintessence.isEmpty()) {
+                    Text(
+                        text = "No quintessence yet",
+                        style = MaterialTheme.typography.titleSmall,
+                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f),
+                        modifier = Modifier.padding(top = 8.dp)
+                    )
+                }
+                uiState.character.quintessence.forEach { quintessence ->
+                    QuintessenceComposable(
+                        quintessence = quintessence,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
             }
         }
 
@@ -183,7 +244,36 @@ fun PlayCharacterRoute(
     }
 }
 
-@Preview(showBackground = true, heightDp = 1500)
+@Composable
+fun QuintessenceComposable(
+    modifier: Modifier = Modifier,
+    quintessence: Quintessence
+) {
+    val lineHeight = with(LocalDensity.current) {
+        MaterialTheme.typography.bodyMedium.lineHeight.toDp()
+    }
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+    ) {
+        Image(
+            painter = painterResource(Res.drawable.status_selected),
+            contentDescription = null,
+            modifier = Modifier.height(lineHeight)
+        )
+        Column(modifier = Modifier.padding(horizontal = 8.dp)) {
+            Text(
+                text = quintessence.name,
+                style = MaterialTheme.typography.displayMedium
+            )
+            Text(
+                text = quintessence.description,
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true, heightDp = 2000)
 @Composable
 fun CharacterRoutePreview() {
     TTRPGAppTheme {

@@ -146,7 +146,8 @@ fun EditThemeComposable(
                 )
                 TextField(
                     value = theme.description,
-                    onValueChange = onDescriptionChange
+                    onValueChange = onDescriptionChange,
+                    modifier = Modifier.fillMaxWidth()
                 )
             }
         }
@@ -173,21 +174,12 @@ fun EditThemeComposable(
                 }
 
                 theme.powerTags.forEach { tag ->
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        TextField(
-                            value = tag.name,
-                            onValueChange = { onPowerTagChange(tag, it) },
-                            maxLines = 1
-                        )
-                        IconButton(
-                            onClick = { onRemovePowerTag(tag) }
-                        ) {
-                            Icon(
-                                painter = painterResource(Res.drawable.remove),
-                                contentDescription = "Remove ${tag.name} power tag"
-                            )
-                        }
-                    }
+                    EditTagComposable(
+                        modifier = Modifier.fillMaxWidth(),
+                        tag = tag,
+                        onValueChanged = { onPowerTagChange(tag, it) },
+                        onRemoveTag = onRemovePowerTag
+                    )
                 }
             }
         }
@@ -196,7 +188,7 @@ fun EditThemeComposable(
             shape = RoundedCornerShape(8.dp)
         ) {
             Column(
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier.fillMaxWidth().padding(16.dp)
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
@@ -214,21 +206,12 @@ fun EditThemeComposable(
                 }
 
                 theme.weaknessTags.forEach { tag ->
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        TextField(
-                            value = tag.name,
-                            onValueChange = { onWeaknessTagChange(tag, it) },
-                            maxLines = 1
-                        )
-                        IconButton(
-                            onClick = { onRemoveWeaknessTag(tag) }
-                        ) {
-                            Icon(
-                                painter = painterResource(Res.drawable.remove),
-                                contentDescription = "Remove ${tag.name} weakness tag"
-                            )
-                        }
-                    }
+                    EditTagComposable(
+                        modifier = Modifier.fillMaxWidth(),
+                        tag = tag,
+                        onValueChanged = { onWeaknessTagChange(tag, it) },
+                        onRemoveTag = onRemoveWeaknessTag
+                    )
                 }
             }
         }
@@ -246,7 +229,9 @@ fun EditThemeComposable(
                 TextField(
                     value = theme.quest,
                     onValueChange = onQuestChange,
-                    modifier = Modifier.padding(top = 8.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp),
                 )
             }
         }
@@ -274,8 +259,11 @@ fun EditThemeComposable(
                 }
 
                 theme.specialImprovements.forEach { specialImprovement ->
-                    Row {
-                        Column {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Column(modifier = Modifier.weight(1f)) {
                             TextField(
                                 value = specialImprovement.name,
                                 onValueChange = { onSpecialImprovementNameChange(specialImprovement, it) },

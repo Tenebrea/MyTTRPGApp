@@ -5,11 +5,15 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
@@ -30,17 +34,20 @@ import com.example.myttrpgapp.character.presentation.common.Counter
 import com.example.myttrpgapp.character.presentation.common.StatusComposable
 import com.example.myttrpgapp.character.presentation.common.TagComposable
 import com.example.myttrpgapp.character.presentation.common.ThemeComposable
+import myttrpgapp.shared.generated.resources.Res
+import myttrpgapp.shared.generated.resources.edit
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun PlayCharacterRoute(
     modifier: Modifier = Modifier,
     uiState: CharacterSheetUiState,
-    onEvent: (CharacterSheetEvent) -> Unit
+    onEvent: (CharacterSheetEvent) -> Unit,
+    onEditCLick: () -> Unit
 ) {
     Column(modifier = modifier) {
         Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(8.dp)
+            Modifier.padding(8.dp), verticalAlignment = Alignment.CenterVertically
         ) {
             if (uiState.character.portrait != null) {
                 Image(
@@ -63,7 +70,20 @@ fun PlayCharacterRoute(
                     onClick = { onEvent(CharacterSheetEvent.OnPromiseClick(it)) }
                 )
             }
+            Spacer(modifier = Modifier.weight(1f))
+            IconButton(
+                onClick = { onEditCLick() },
+                shape = RoundedCornerShape(4.dp),
+                modifier = Modifier.size(48.dp)
+            ) {
+                Icon(
+                    painter = painterResource(Res.drawable.edit),
+                    contentDescription = "Edit character"
+                )
+            }
         }
+
+        //Fellowship theme
         ThemeComposable(
             theme = uiState.character.fellowshipTheme,
             modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
@@ -73,6 +93,8 @@ fun PlayCharacterRoute(
             onMilestoneClick = { onEvent(CharacterSheetEvent.OnMilestoneClick(it, uiState.character.fellowshipTheme)) },
             onAbandonClick = { onEvent(CharacterSheetEvent.OnAbandonClick(it, uiState.character.fellowshipTheme)) }
         )
+
+        // All character themes
         FlowRow(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -89,6 +111,7 @@ fun PlayCharacterRoute(
                     onAbandonClick = { onEvent(CharacterSheetEvent.OnAbandonClick(it, theme)) }
                 )
             }
+            // Backpack theme
             OutlinedCard(
                 modifier = Modifier.weight(1f),
                 shape = RoundedCornerShape(8.dp)
@@ -114,6 +137,8 @@ fun PlayCharacterRoute(
                     }
                 }
             }
+
+            //Story tags and statuses
             OutlinedCard(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(8.dp)
@@ -279,7 +304,8 @@ fun CharacterRoutePreview() {
                     quintessence = emptyList()
                 )
             ),
-            onEvent = {}
+            onEvent = {},
+            onEditCLick = {}
         )
     }
 }

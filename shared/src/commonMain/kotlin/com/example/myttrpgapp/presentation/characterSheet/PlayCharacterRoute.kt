@@ -25,6 +25,13 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myhabitapp.ui.theme.TTRPGAppTheme
+import com.example.myttrpgapp.domain.model.PlayerCharacter
+import com.example.myttrpgapp.domain.model.statuses.Status
+import com.example.myttrpgapp.domain.model.tags.Tag
+import com.example.myttrpgapp.domain.model.tags.TagCategory
+import com.example.myttrpgapp.domain.model.tags.TagState
+import com.example.myttrpgapp.domain.model.themes.Might
+import com.example.myttrpgapp.domain.model.themes.Theme
 import com.example.myttrpgapp.presentation.characterSheet.common.Counter
 import com.example.myttrpgapp.presentation.characterSheet.common.StatusComposable
 import com.example.myttrpgapp.presentation.characterSheet.common.TagComposable
@@ -37,8 +44,8 @@ import org.jetbrains.compose.resources.painterResource
 @Composable
 fun PlayCharacterRoute(
     modifier: Modifier = Modifier,
-    uiState: com.example.myttrpgapp.presentation.characterSheet.CharacterSheetUiState,
-    onEvent: (com.example.myttrpgapp.presentation.characterSheet.CharacterSheetEvent) -> Unit,
+    uiState: CharacterSheetUiState,
+    onEvent: (CharacterSheetEvent) -> Unit,
     onEditCLick: () -> Unit
 ) {
     Column(modifier = modifier) {
@@ -130,7 +137,7 @@ fun PlayCharacterRoute(
                     )
                 }
                 uiState.character.quintessence.forEach { quintessence ->
-                    _root_ide_package_.com.example.myttrpgapp.presentation.characterSheet.QuintessenceComposable(
+                    QuintessenceComposable(
                         quintessence = quintessence,
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -366,41 +373,41 @@ fun QuintessenceComposable(
 @Composable
 fun CharacterRoutePreview() {
     TTRPGAppTheme {
-        _root_ide_package_.com.example.myttrpgapp.presentation.characterSheet.PlayCharacterRoute(
+        PlayCharacterRoute(
             modifier = Modifier.verticalScroll(rememberScrollState()).padding(16.dp),
-            uiState = _root_ide_package_.com.example.myttrpgapp.presentation.characterSheet.CharacterSheetUiState(
-                character = _root_ide_package_.com.example.myttrpgapp.domain.model.Character(
+            uiState = CharacterSheetUiState(
+                character = PlayerCharacter(
                     id = 1,
                     portrait = null,
                     name = "Valeros",
                     description = "A brave warrior",
                     promise = 3,
-                    fellowshipTheme = _root_ide_package_.com.example.myttrpgapp.domain.model.themes.Theme(
+                    fellowshipTheme = Theme(
                         id = 1,
-                        name = _root_ide_package_.com.example.myttrpgapp.domain.model.tags.Tag(
+                        name = Tag(
                             id = 1,
                             name = "Fellowship",
-                            tagState = _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagState.UNSELECTED,
-                            tagCategory = _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagCategory.POWER
+                            tagState = TagState.UNSELECTED,
+                            tagCategory = TagCategory.POWER
                         ),
                         group = "Fellowship",
-                        might = _root_ide_package_.com.example.myttrpgapp.domain.model.themes.Might.ORIGIN,
+                        might = Might.ORIGIN,
                         description = "Our shared bond",
                         quest = "Protect the realm",
                         powerTags = listOf(
-                            _root_ide_package_.com.example.myttrpgapp.domain.model.tags.Tag(
+                            Tag(
                                 2,
                                 "Comrades in Arms",
-                                _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagState.UNSELECTED,
-                                _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagCategory.POWER
+                                TagState.UNSELECTED,
+                                TagCategory.POWER
                             )
                         ),
                         weaknessTags = listOf(
-                            _root_ide_package_.com.example.myttrpgapp.domain.model.tags.Tag(
+                            Tag(
                                 3,
                                 "Shared Burden",
-                                _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagState.UNSELECTED,
-                                _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagCategory.WEAKNESS
+                                TagState.UNSELECTED,
+                                TagCategory.WEAKNESS
                             )
                         ),
                         milestoneCount = 1,
@@ -409,38 +416,38 @@ fun CharacterRoutePreview() {
                         specialImprovements = emptyList()
                     ),
                     themes = listOf(
-                        _root_ide_package_.com.example.myttrpgapp.domain.model.themes.Theme(
+                        Theme(
                             id = 2,
-                            name = _root_ide_package_.com.example.myttrpgapp.domain.model.tags.Tag(
+                            name = Tag(
                                 id = 4,
                                 name = "Firestarter",
-                                tagState = _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagState.UNSELECTED,
-                                tagCategory = _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagCategory.POWER
+                                tagState = TagState.UNSELECTED,
+                                tagCategory = TagCategory.POWER
                             ),
                             group = "Magic",
-                            might = _root_ide_package_.com.example.myttrpgapp.domain.model.themes.Might.ORIGIN,
+                            might = Might.ORIGIN,
                             description = "Master of flames and heat",
                             quest = "Learn the truth behind the eternal flame",
                             powerTags = listOf(
-                                _root_ide_package_.com.example.myttrpgapp.domain.model.tags.Tag(
+                                Tag(
                                     5,
                                     "Fireball",
-                                    _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagState.UNSELECTED,
-                                    _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagCategory.POWER
+                                    TagState.UNSELECTED,
+                                    TagCategory.POWER
                                 ),
-                                _root_ide_package_.com.example.myttrpgapp.domain.model.tags.Tag(
+                                Tag(
                                     6,
                                     "Heat Resistance",
-                                    _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagState.SELECTED,
-                                    _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagCategory.POWER
+                                    TagState.SELECTED,
+                                    TagCategory.POWER
                                 )
                             ),
                             weaknessTags = listOf(
-                                _root_ide_package_.com.example.myttrpgapp.domain.model.tags.Tag(
+                                Tag(
                                     7,
                                     "Water Weakness",
-                                    _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagState.UNSELECTED,
-                                    _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagCategory.WEAKNESS
+                                    TagState.UNSELECTED,
+                                    TagCategory.WEAKNESS
                                 )
                             ),
                             milestoneCount = 2,
@@ -450,32 +457,32 @@ fun CharacterRoutePreview() {
                         )
                     ),
                     backpackTags = listOf(
-                        _root_ide_package_.com.example.myttrpgapp.domain.model.tags.Tag(
+                        Tag(
                             8,
                             "Healing Potion",
-                            _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagState.SELECTED,
-                            _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagCategory.BACKPACK
+                            TagState.SELECTED,
+                            TagCategory.BACKPACK
                         ),
-                        _root_ide_package_.com.example.myttrpgapp.domain.model.tags.Tag(
+                        Tag(
                             9,
                             "Rope & Hook",
-                            _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagState.UNSELECTED,
-                            _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagCategory.BACKPACK
+                            TagState.UNSELECTED,
+                            TagCategory.BACKPACK
                         )
                     ),
                     storyTags = listOf(
-                        _root_ide_package_.com.example.myttrpgapp.domain.model.tags.Tag(
+                        Tag(
                             10,
                             "Marked by the Cult",
-                            _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagState.UNSELECTED,
-                            _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagCategory.POWER
+                            TagState.UNSELECTED,
+                            TagCategory.POWER
                         )
                     ),
                     status = listOf(
-                        _root_ide_package_.com.example.myttrpgapp.domain.model.statuses.Status(
+                        Status(
                             id = 1,
                             name = "Wounded",
-                            tagState = _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagState.UNSELECTED,
+                            tagState = TagState.UNSELECTED,
                             markedValues = listOf(1, 2)
                         )
                     ),

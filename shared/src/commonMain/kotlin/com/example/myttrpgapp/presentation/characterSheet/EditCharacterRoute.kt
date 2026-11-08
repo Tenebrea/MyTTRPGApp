@@ -27,6 +27,11 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myhabitapp.ui.theme.TTRPGAppTheme
+import com.example.myttrpgapp.domain.model.tags.Tag
+import com.example.myttrpgapp.domain.model.tags.TagCategory
+import com.example.myttrpgapp.domain.model.tags.TagState
+import com.example.myttrpgapp.domain.model.themes.Might
+import com.example.myttrpgapp.domain.model.themes.Theme
 import com.example.myttrpgapp.presentation.characterSheet.common.Counter
 import com.example.myttrpgapp.presentation.characterSheet.common.EditStatusComposable
 import com.example.myttrpgapp.presentation.characterSheet.common.EditTagComposable
@@ -45,10 +50,10 @@ import org.jetbrains.compose.resources.painterResource
 @Composable
 fun EditCharacterRoute(
     modifier: Modifier = Modifier,
-    uiState: com.example.myttrpgapp.presentation.characterSheet.CharacterSheetUiState,
-    onEvent: (com.example.myttrpgapp.presentation.characterSheet.CharacterSheetEvent) -> Unit,
+    uiState: CharacterSheetUiState,
+    onEvent: (CharacterSheetEvent) -> Unit,
     onFinishEditingClick: () -> Unit,
-    onEditTheme: (com.example.myttrpgapp.domain.model.themes.Theme) -> Unit
+    onEditTheme: (Theme) -> Unit
 ) {
     lateinit var imageBitmap: ImageBitmap
     if (uiState.character.portrait == null) {
@@ -71,7 +76,7 @@ fun EditCharacterRoute(
                 contentDescription = "Portrait of ${uiState.character.name}",
                 modifier = Modifier
                     .size(64.dp)
-                    .clickable { onEvent(_root_ide_package_.com.example.myttrpgapp.presentation.characterSheet.CharacterSheetEvent.OnCharacterPortraitChange) }
+                    .clickable { onEvent(CharacterSheetEvent.OnCharacterPortraitChange) }
             )
             Column(
                 verticalArrangement = Arrangement.Center,
@@ -80,7 +85,7 @@ fun EditCharacterRoute(
             ) {
                 TextField(
                     value = uiState.character.name,
-                    onValueChange = { onEvent(_root_ide_package_.com.example.myttrpgapp.presentation.characterSheet.CharacterSheetEvent.OnCharacterNameChange(it)) },
+                    onValueChange = { onEvent(CharacterSheetEvent.OnCharacterNameChange(it)) },
                     maxLines = 1,
                     placeholder = { Text(text = "Character name") },
                     modifier = Modifier
@@ -124,7 +129,7 @@ fun EditCharacterRoute(
                 )
                 TextField(
                     value = uiState.character.description,
-                    onValueChange = { onEvent(_root_ide_package_.com.example.myttrpgapp.presentation.characterSheet.CharacterSheetEvent.OnCharacterDescriptionChange(it)) },
+                    onValueChange = { onEvent(CharacterSheetEvent.OnCharacterDescriptionChange(it)) },
                     modifier = Modifier.fillMaxWidth()
                 )
             }
@@ -146,7 +151,7 @@ fun EditCharacterRoute(
                         style = MaterialTheme.typography.displaySmall,
                     )
                     IconButton(
-                        onClick = { onEvent(_root_ide_package_.com.example.myttrpgapp.presentation.characterSheet.CharacterSheetEvent.OnAddQuintessenceClick) }
+                        onClick = { onEvent(CharacterSheetEvent.OnAddQuintessenceClick) }
                     ) {
                         Icon(
                             painter = painterResource(Res.drawable.add),
@@ -164,7 +169,7 @@ fun EditCharacterRoute(
                                 value = quintessence.name,
                                 onValueChange = {
                                     onEvent(
-                                        _root_ide_package_.com.example.myttrpgapp.presentation.characterSheet.CharacterSheetEvent.OnQuintessenceNameChange(
+                                        CharacterSheetEvent.OnQuintessenceNameChange(
                                             quintessence,
                                             it
                                         )
@@ -178,7 +183,7 @@ fun EditCharacterRoute(
                                 value = quintessence.description,
                                 onValueChange = {
                                     onEvent(
-                                        _root_ide_package_.com.example.myttrpgapp.presentation.characterSheet.CharacterSheetEvent.OnQuintessenceDescriptionChange(
+                                        CharacterSheetEvent.OnQuintessenceDescriptionChange(
                                             quintessence,
                                             it
                                         )
@@ -191,7 +196,7 @@ fun EditCharacterRoute(
                         IconButton(
                             onClick = {
                                 onEvent(
-                                    _root_ide_package_.com.example.myttrpgapp.presentation.characterSheet.CharacterSheetEvent.OnRemoveQuintessenceClick(
+                                    CharacterSheetEvent.OnRemoveQuintessenceClick(
                                         quintessence
                                     )
                                 )
@@ -350,7 +355,7 @@ fun EditCharacterRoute(
                             style = MaterialTheme.typography.displaySmall,
                         )
                         IconButton(
-                            onClick = { onEvent(_root_ide_package_.com.example.myttrpgapp.presentation.characterSheet.CharacterSheetEvent.OnAddBackpackTagClick) }
+                            onClick = { onEvent(CharacterSheetEvent.OnAddBackpackTagClick) }
                         ) {
                             Icon(
                                 painter = painterResource(Res.drawable.add),
@@ -401,7 +406,7 @@ fun EditCharacterRoute(
                             modifier = Modifier.weight(1f)
                         )
                         IconButton(
-                            onClick = { onEvent(_root_ide_package_.com.example.myttrpgapp.presentation.characterSheet.CharacterSheetEvent.OnAddStoryTagClick) },
+                            onClick = { onEvent(CharacterSheetEvent.OnAddStoryTagClick) },
                             shape = RoundedCornerShape(4.dp)
                         ) {
                             Icon(
@@ -410,7 +415,7 @@ fun EditCharacterRoute(
                             )
                         }
                         IconButton(
-                            onClick = { onEvent(_root_ide_package_.com.example.myttrpgapp.presentation.characterSheet.CharacterSheetEvent.OnAddStatusClick) }
+                            onClick = { onEvent(CharacterSheetEvent.OnAddStatusClick) }
                         ) {
                             Icon(
                                 painter = painterResource(Res.drawable.status),
@@ -491,41 +496,41 @@ fun EditCharacterRoute(
 @Composable
 fun EditCharacterRoutePreview() {
     TTRPGAppTheme {
-        _root_ide_package_.com.example.myttrpgapp.presentation.characterSheet.EditCharacterRoute(
+        EditCharacterRoute(
             modifier = Modifier.verticalScroll(rememberScrollState()).padding(16.dp),
-            uiState = _root_ide_package_.com.example.myttrpgapp.presentation.characterSheet.CharacterSheetUiState(
-                character = _root_ide_package_.com.example.myttrpgapp.domain.model.Character(
+            uiState = CharacterSheetUiState(
+                character = com.example.myttrpgapp.domain.model.PlayerCharacter(
                     id = 1,
                     portrait = null,
                     name = "Valeros",
                     description = "A brave warrior",
                     promise = 3,
-                    fellowshipTheme = _root_ide_package_.com.example.myttrpgapp.domain.model.themes.Theme(
+                    fellowshipTheme = Theme(
                         id = 1,
-                        name = _root_ide_package_.com.example.myttrpgapp.domain.model.tags.Tag(
+                        name = Tag(
                             id = 1,
                             name = "Fellowship",
-                            tagState = _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagState.UNSELECTED,
-                            tagCategory = _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagCategory.POWER
+                            tagState = TagState.UNSELECTED,
+                            tagCategory = TagCategory.POWER
                         ),
                         group = "Fellowship",
-                        might = _root_ide_package_.com.example.myttrpgapp.domain.model.themes.Might.ORIGIN,
+                        might = Might.ORIGIN,
                         description = "Our shared bond",
                         quest = "Protect the realm",
                         powerTags = listOf(
-                            _root_ide_package_.com.example.myttrpgapp.domain.model.tags.Tag(
+                            Tag(
                                 2,
                                 "Comrades in Arms",
-                                _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagState.UNSELECTED,
-                                _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagCategory.POWER
+                                TagState.UNSELECTED,
+                                TagCategory.POWER
                             )
                         ),
                         weaknessTags = listOf(
-                            _root_ide_package_.com.example.myttrpgapp.domain.model.tags.Tag(
+                            Tag(
                                 3,
                                 "Shared Burden",
-                                _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagState.UNSELECTED,
-                                _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagCategory.WEAKNESS
+                                TagState.UNSELECTED,
+                                TagCategory.WEAKNESS
                             )
                         ),
                         milestoneCount = 1,
@@ -534,38 +539,38 @@ fun EditCharacterRoutePreview() {
                         specialImprovements = emptyList()
                     ),
                     themes = listOf(
-                        _root_ide_package_.com.example.myttrpgapp.domain.model.themes.Theme(
+                        Theme(
                             id = 2,
-                            name = _root_ide_package_.com.example.myttrpgapp.domain.model.tags.Tag(
+                            name = Tag(
                                 id = 4,
                                 name = "Firestarter",
-                                tagState = _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagState.UNSELECTED,
-                                tagCategory = _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagCategory.POWER
+                                tagState = TagState.UNSELECTED,
+                                tagCategory = TagCategory.POWER
                             ),
                             group = "Magic",
-                            might = _root_ide_package_.com.example.myttrpgapp.domain.model.themes.Might.ORIGIN,
+                            might = Might.ORIGIN,
                             description = "Master of flames and heat",
                             quest = "Learn the truth behind the eternal flame",
                             powerTags = listOf(
-                                _root_ide_package_.com.example.myttrpgapp.domain.model.tags.Tag(
+                                Tag(
                                     5,
                                     "Fireball",
-                                    _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagState.UNSELECTED,
-                                    _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagCategory.POWER
+                                    TagState.UNSELECTED,
+                                    TagCategory.POWER
                                 ),
-                                _root_ide_package_.com.example.myttrpgapp.domain.model.tags.Tag(
+                                Tag(
                                     6,
                                     "Heat Resistance",
-                                    _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagState.SELECTED,
-                                    _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagCategory.POWER
+                                    TagState.SELECTED,
+                                    TagCategory.POWER
                                 )
                             ),
                             weaknessTags = listOf(
-                                _root_ide_package_.com.example.myttrpgapp.domain.model.tags.Tag(
+                                Tag(
                                     7,
                                     "Water Weakness",
-                                    _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagState.UNSELECTED,
-                                    _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagCategory.WEAKNESS
+                                    TagState.UNSELECTED,
+                                    TagCategory.WEAKNESS
                                 )
                             ),
                             milestoneCount = 2,
@@ -575,32 +580,32 @@ fun EditCharacterRoutePreview() {
                         )
                     ),
                     backpackTags = listOf(
-                        _root_ide_package_.com.example.myttrpgapp.domain.model.tags.Tag(
+                        Tag(
                             8,
                             "Healing Potion",
-                            _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagState.SELECTED,
-                            _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagCategory.BACKPACK
+                            TagState.SELECTED,
+                            TagCategory.BACKPACK
                         ),
-                        _root_ide_package_.com.example.myttrpgapp.domain.model.tags.Tag(
+                        Tag(
                             9,
                             "Rope & Hook",
-                            _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagState.UNSELECTED,
-                            _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagCategory.BACKPACK
+                            TagState.UNSELECTED,
+                            TagCategory.BACKPACK
                         )
                     ),
                     storyTags = listOf(
-                        _root_ide_package_.com.example.myttrpgapp.domain.model.tags.Tag(
+                        Tag(
                             10,
                             "Marked by the Cult",
-                            _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagState.UNSELECTED,
-                            _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagCategory.POWER
+                            TagState.UNSELECTED,
+                            TagCategory.POWER
                         )
                     ),
                     status = listOf(
-                        _root_ide_package_.com.example.myttrpgapp.domain.model.statuses.Status(
+                        com.example.myttrpgapp.domain.model.statuses.Status(
                             id = 1,
                             name = "Wounded",
-                            tagState = _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagState.UNSELECTED,
+                            tagState = TagState.UNSELECTED,
                             markedValues = listOf(1, 2)
                         )
                     ),

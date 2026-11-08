@@ -1,12 +1,7 @@
 package com.example.myttrpgapp.presentation.characterSheet
 
-import com.example.myttrpgapp.domain.model.Character
-import com.example.myttrpgapp.domain.model.tags.Tag
-import com.example.myttrpgapp.domain.model.themes.Might
-import com.example.myttrpgapp.domain.model.themes.Theme
-
 data class CharacterSheetUiState(
-    val character: com.example.myttrpgapp.domain.model.Character = _root_ide_package_.com.example.myttrpgapp.domain.model.Character(
+    val character: com.example.myttrpgapp.domain.model.PlayerCharacter = com.example.myttrpgapp.domain.model.PlayerCharacter(
         id = 0,
         name = "",
         description = "",
@@ -14,16 +9,16 @@ data class CharacterSheetUiState(
         themes = emptyList(),
         storyTags = emptyList(),
         backpackTags = emptyList(),
-        fellowshipTheme = _root_ide_package_.com.example.myttrpgapp.domain.model.themes.Theme(
+        fellowshipTheme = com.example.myttrpgapp.domain.model.themes.Theme(
             id = 0,
-            name = _root_ide_package_.com.example.myttrpgapp.domain.model.tags.Tag(
+            name = com.example.myttrpgapp.domain.model.tags.Tag(
                 id = 0,
                 name = "",
-                tagState = _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagState.UNSELECTED,
-                tagCategory = _root_ide_package_.com.example.myttrpgapp.domain.model.tags.TagCategory.POWER
+                tagState = com.example.myttrpgapp.domain.model.tags.TagState.UNSELECTED,
+                tagCategory = com.example.myttrpgapp.domain.model.tags.TagCategory.POWER
             ),
             group = "",
-            might = _root_ide_package_.com.example.myttrpgapp.domain.model.themes.Might.ORIGIN,
+            might = com.example.myttrpgapp.domain.model.themes.Might.ORIGIN,
             description = "",
             quest = "",
             powerTags = emptyList(),

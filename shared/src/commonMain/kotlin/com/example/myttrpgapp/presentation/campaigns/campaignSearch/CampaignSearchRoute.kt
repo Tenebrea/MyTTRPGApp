@@ -344,6 +344,7 @@ fun CampaignSearchRoutePreview() {
         name = "GM Dave",
         email = "dave@example.com",
         password = "",
+        description = "",
         campaigns = emptyList(),
         characters = emptyList()
     )

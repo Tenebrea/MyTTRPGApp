@@ -377,6 +377,7 @@ fun CampaignComposablePreview() {
             name = "Dungeon Master Alex",
             email = "alex@example.com",
             password = "",
+            description = "",
             campaigns = emptyList(),
             characters = emptyList()
         )
@@ -385,6 +386,7 @@ fun CampaignComposablePreview() {
             name = "Player One",
             email = "player@example.com",
             password = "",
+            description = "",
             campaigns = emptyList(),
             characters = emptyList()
         )
